@@ -8,11 +8,21 @@ Features:
     - 🐶 Dog Ears & Nose: Classic puppy filter with floppy ears
     - 😎 Sunglasses: Aviator shades that follow your face
     - 🔥 Flame Crown: Animated procedural flame crown
+    - 🌊 Wobble Face: Sine-wave distortion effect
+    - 📦 Pixelate Zoom: Dynamic face pixelation
+    - ⚔️ Viking Helmet & Beard: Warrior outfit with beard
+    - 👨‍🚀 Astronaut Helmet: Glass dome with reflection
+    - 🎭 Masquerade Mask: Ornate venetian mask
+    - 💚 Matrix Rain: Falling green characters
+    - ⚡ Lightning Aura: Electric arcs effect
+    - 🖤 Ink Splash: Animated ink blobs
+    - 😊 Mood Meter: Expression-based emoji display
+    - ❄️ Freeze Ray: Mouth-triggered frost effect
+    - 🌸 Blush Reactor: Smile-reactive blush circles
 
 Controls:
-    1 — Dog Ears & Nose
-    2 — Sunglasses
-    3 — Flame Crown
+    1-9 — Filters 1-9
+    Shift+1 to Shift+5 — Filters 10-14
     0 — No filter (off)
     s — Save screenshot
     q — Quit
@@ -33,7 +43,13 @@ import time
 import os
 from datetime import datetime
 
-from filters import DogFilter, SunglassesFilter, FlameCrownFilter
+from filters import (
+    DogFilter, SunglassesFilter, FlameCrownFilter,
+    WobbleFilter, PixelateZoomFilter, VikingHelmetFilter,
+    AstronautHelmetFilter, MasqueradeMaskFilter, MatrixRainFilter,
+    LightningAuraFilter, InkSplashFilter, MoodMeterFilter,
+    FreezeRayFilter, BlushReactorFilter
+)
 
 
 # ─── Configuration ─────────────────────────────────────────────────
@@ -92,7 +108,7 @@ def draw_hud(frame, filter_name, fps):
     )
 
     # ── Bottom controls bar ──
-    controls = "1: Dog  |  2: Sunglasses  |  3: Flame  |  0: Off  |  S: Screenshot  |  Q: Quit"
+    controls = "1-14: Filters  |  0: Off  |  S: Screenshot  |  Q: Quit"
     bottom_bar = frame[h - 40:h, :].copy()
     dark_bottom = np.zeros_like(bottom_bar)
     cv2.addWeighted(bottom_bar, 0.4, dark_bottom, 0.6, 0, bottom_bar)
@@ -199,6 +215,17 @@ def main():
         1: DogFilter(),
         2: SunglassesFilter(),
         3: FlameCrownFilter(),
+        4: WobbleFilter(),
+        5: PixelateZoomFilter(),
+        6: VikingHelmetFilter(),
+        7: AstronautHelmetFilter(),
+        8: MasqueradeMaskFilter(),
+        9: MatrixRainFilter(),
+        10: LightningAuraFilter(),
+        11: InkSplashFilter(),
+        12: MoodMeterFilter(),
+        13: FreezeRayFilter(),
+        14: BlushReactorFilter(),
     }
 
     current_filter_key = 0  # 0 = no filter
@@ -292,6 +319,50 @@ def main():
         elif key == ord('3'):
             current_filter_key = 3
             print(f"  🔄 Filter: {filters[3].name}")
+
+        elif key == ord('4'):
+            current_filter_key = 4
+            print(f"  🔄 Filter: {filters[4].name}")
+
+        elif key == ord('5'):
+            current_filter_key = 5
+            print(f"  🔄 Filter: {filters[5].name}")
+
+        elif key == ord('6'):
+            current_filter_key = 6
+            print(f"  🔄 Filter: {filters[6].name}")
+
+        elif key == ord('7'):
+            current_filter_key = 7
+            print(f"  🔄 Filter: {filters[7].name}")
+
+        elif key == ord('8'):
+            current_filter_key = 8
+            print(f"  🔄 Filter: {filters[8].name}")
+
+        elif key == ord('9'):
+            current_filter_key = 9
+            print(f"  🔄 Filter: {filters[9].name}")
+
+        elif key == ord('!'):  # Shift+1
+            current_filter_key = 10
+            print(f"  🔄 Filter: {filters[10].name}")
+
+        elif key == ord('@'):  # Shift+2
+            current_filter_key = 11
+            print(f"  🔄 Filter: {filters[11].name}")
+
+        elif key == ord('#'):  # Shift+3
+            current_filter_key = 12
+            print(f"  🔄 Filter: {filters[12].name}")
+
+        elif key == ord('$'):  # Shift+4
+            current_filter_key = 13
+            print(f"  🔄 Filter: {filters[13].name}")
+
+        elif key == ord('%'):  # Shift+5
+            current_filter_key = 14
+            print(f"  🔄 Filter: {filters[14].name}")
 
         elif key == ord('s') or key == ord('S'):
             # Save screenshot (without HUD)
