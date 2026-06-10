@@ -6,11 +6,22 @@ A real-time face filter desktop application built with Python, OpenCV, and Media
 
 ## ✨ Features
 
-| Filter | Key | Description |
-|---|---|---|
-| 🐶 **Dog Ears & Nose** | `1` | Classic puppy filter with floppy cartoon ears and a cute nose |
-| 😎 **Sunglasses** | `2` | Aviator-style shades that follow your face tilt |
-| 🔥 **Flame Crown** | `3` | Animated procedural flame crown floating above your head |
+| Filter | Key | Category | Description |
+|---|---|---|---|
+| 🐶 **Dog Ears & Nose** | `1` | Wearables | Classic puppy filter with floppy cartoon ears and a cute nose |
+| 😎 **Sunglasses** | `2` | Wearables | Aviator-style shades that follow your face tilt |
+| 🔥 **Flame Crown** | `3` | Animated | Procedural flame crown flickering above your head |
+| 🌊 **Wobble Face** | `4` | Distortion | Sine-wave jelly ripple effect across the entire face |
+| 📦 **Pixelate Zoom** | `5` | Distortion | Dynamic pixelation that reacts to movement (censor blur) |
+| ⚔️ **Viking Helmet & Beard** | `6` | Wearables | Ornate warrior helmet with flowing beard using PNG asset |
+| 👨‍🚀 **Astronaut Helmet** | `7` | Wearables | Transparent glass dome with reflection sheen using PNG asset |
+| 🎭 **Masquerade Mask** | `8` | Wearables | Ornate venetian half-mask covering eyes and nose using PNG asset |
+| 💚 **Matrix Rain** | `9` | Procedural | Green cascading katakana characters with glitch effects |
+| ⚡ **Lightning Aura** | Shift+1 | Procedural | Electric arcs sparking outward from face outline |
+| 🖤 **Ink Splash** | Shift+2 | Procedural | Animated ink blobs spreading from forehead, resets on movement |
+| 😊 **Mood Meter** | Shift+3 | Reactive | Real-time emoji + mood label based on facial expression |
+| ❄️ **Freeze Ray** | Shift+4 | Reactive | Frost/crystallize effect spreading when mouth opens wide |
+| 🌸 **Blush Reactor** | Shift+5 | Reactive | Soft blush circles on cheeks, intensifies with smile |
 
 All filters:
 - Track your face in real-time using **468 facial landmarks**
@@ -49,9 +60,8 @@ python main.py
 
 | Key | Action |
 |---|---|
-| `1` | Activate Dog Ears & Nose filter |
-| `2` | Activate Sunglasses filter |
-| `3` | Activate Flame Crown filter |
+| `1`–`9` | Activate filters 1–9 |
+| `Shift+1`–`Shift+5` | Activate filters 10–14 (`!` `@` `#` `$` `%`) |
 | `0` | Turn off all filters |
 | `S` | Save a screenshot to `screenshots/` |
 | `Q` | Quit the application |
