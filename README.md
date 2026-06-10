@@ -72,21 +72,36 @@ python main.py
 
 ```
 Snappy/
-├── main.py                 # Entry point — webcam loop, keyboard handler, HUD
-├── utils.py                # Overlay helpers, landmark extraction, asset loading
+├── main.py                      # Entry point — webcam loop, keyboard handler, HUD
+├── utils.py                     # Overlay helpers, landmark extraction, asset loading
 ├── filters/
-│   ├── __init__.py         # Package exports
-│   ├── base.py             # BaseFilter abstract class
-│   ├── dog.py              # Dog ears & nose filter
-│   ├── sunglasses.py       # Sunglasses filter
-│   └── flame_crown.py      # Procedural flame crown filter
+│   ├── __init__.py              # Package exports
+│   ├── base.py                  # BaseFilter abstract class
+│   ├── dog.py                   # Dog ears & nose filter
+│   ├── sunglasses.py            # Sunglasses filter
+│   ├── flame_crown.py           # Procedural flame crown filter
+│   ├── wobble_face.py           # Sine-wave distortion filter
+│   ├── pixelate_zoom.py         # Dynamic pixelation filter
+│   ├── viking_helmet.py         # Viking helmet & beard (PNG-based)
+│   ├── astronaut_helmet.py      # Astronaut helmet dome (PNG-based)
+│   ├── masquerade_mask.py       # Venetian mask overlay (PNG-based)
+│   ├── matrix_rain.py           # Falling characters with glitch effects
+│   ├── lightning_aura.py        # Procedural electric arcs
+│   ├── ink_splash.py            # Animated ink blob spread
+│   ├── mood_meter.py            # Expression-based emoji display
+│   ├── freeze_ray.py            # Mouth-triggered frost effect
+│   └── blush_reactor.py         # Smile-reactive blush circles
 ├── assets/
-│   ├── dog_ears.png        # Cartoon dog ears (transparent PNG)
-│   ├── dog_nose.png        # Cartoon dog nose (transparent PNG)
-│   └── sunglasses.png      # Aviator sunglasses (transparent PNG)
-├── screenshots/            # Saved screenshots (created automatically)
-├── requirements.txt        # Python dependencies
-└── README.md               # This file
+│   ├── dog_ears.png             # Cartoon dog ears (transparent PNG)
+│   ├── dog_nose.png             # Cartoon dog nose (transparent PNG)
+│   ├── sunglasses.png           # Aviator sunglasses (transparent PNG)
+│   ├── viking_helmet.png        # Viking warrior helmet & beard (transparent PNG)
+│   ├── astronaut_helmet.png     # Glass dome helmet (transparent PNG)
+│   ├── masquerade_mask.png      # Ornate venetian mask (transparent PNG)
+│   └── face_landmarker_v2.task  # MediaPipe Face Mesh model (required)
+├── screenshots/                 # Saved screenshots (created automatically)
+├── requirements.txt             # Python dependencies
+└── README.md                    # This file
 ```
 
 ### Core Components
@@ -133,6 +148,88 @@ class BaseFilter(ABC):
 - Uses a warm color palette: deep red → orange → bright yellow
 - Applies Gaussian blur for glow, then additive blending onto the frame
 
+#### `filters/wobble_face.py` — Wobble Face Filter
+- Applies sine-wave horizontal distortion to the face region
+- Creates a rippling jelly-like effect
+- Updates continuously with animated wave motion
+- Procedurally generated without assets
+
+#### `filters/pixelate_zoom.py` — Pixelate Zoom Filter
+- Downscales and upscales the face region to create pixelation
+- Blocksize = 12 pixels for censor blur effect
+- Background remains sharp and unpixelated
+- Reacts to movement in real-time
+
+#### `filters/viking_helmet.py` — Viking Helmet & Beard Filter
+- Uses PNG asset (`viking_helmet.png`) for realistic appearance
+- Scales to 1.35x face width
+- Positioned above forehead with rotation awareness
+- Includes helmet, horns, and flowing beard in one asset
+
+#### `filters/astronaut_helmet.py` — Astronaut Helmet Filter
+- Uses PNG asset (`astronaut_helmet.png`) — glass dome design
+- Scales to 1.4x face width
+- Covers entire head region
+- Rotates with face tilt angle
+
+#### `filters/masquerade_mask.py` — Masquerade Mask Filter
+- Uses PNG asset (`masquerade_mask.png`) — ornate venetian design
+- Scales to 1.2x face width
+- Centered on eyes and nose bridge
+- Rotates to follow face angle
+
+#### `filters/matrix_rain.py` — Matrix Rain Filter
+- **Enhanced procedural** — green cascading katakana characters
+- Features:
+  - Per-column speed and brightness variation
+  - Exponential fade curve for smooth trails
+  - Glow effect on leading character
+  - Occasional scanline flash effects
+  - Subtle screen glitch artifacts (5% chance per frame)
+  - Dynamic trail lengths (6-15 characters per column)
+
+#### `filters/lightning_aura.py` — Lightning Aura Filter
+- Generates procedural electric arcs radiating from face outline
+- Creates branching lightning paths
+- Animates with random variations each frame
+- Glow ring around face center
+
+#### `filters/ink_splash.py` — Ink Splash Filter
+- Animated ink blob spread from forehead downward
+- Resets animation on significant face movement
+- Features dripping trails and splatter effects
+- 2-second animation cycle with smooth fading
+
+#### `filters/mood_meter.py` — Mood Meter Filter
+- Detects facial expression using:
+  - Mouth openness (landmarks **13**, **14**)
+  - Eyebrow height (landmarks **105**, **334**)
+- Displays emoji + mood label above head:
+  - 😄 **Happy** — wide mouth, raised brows
+  - 😲 **Surprised** — very wide mouth, high eyebrows
+  - 🤔 **Curious** — neutral mouth, raised brows
+  - 😢 **Sad** — closed mouth, low eyebrows
+  - 😐 **Neutral** — default state
+- Real-time updates with colored background box
+
+#### `filters/freeze_ray.py` — Freeze Ray Filter
+- Detects mouth wide open (aspect ratio > 0.16)
+- Activates with smooth ramping (0.1 per frame)
+- Draws crystalline ice patterns:
+  - Snowflake-shaped crystals radiating outward
+  - Blue-tinted overlay glow
+  - Spreading frost radius effect
+- Deactivates when mouth closes
+
+#### `filters/blush_reactor.py` — Blush Reactor Filter
+- Calculates smile intensity using:
+  - Mouth width (landmarks **61**, **291**)
+  - Mouth height (landmarks **13**, **14**)
+- Displays on cheeks (landmarks **226**, **446**):
+  - Base radius: 15 pixels × smile intensity multiplier
+  - Pink color with variable opacity
+  - Subtle highlight effect when smiling (> 30% intensity)
+
 ---
 
 ## 🔧 How It Works
@@ -156,14 +253,24 @@ MediaPipe provides **468 facial landmarks** as normalized (0.0–1.0) coordinate
 | Landmark | Location | Used By |
 |---|---|---|
 | 1 | Nose tip | Dog nose placement |
-| 10 | Forehead top center | Dog ears, Flame crown |
-| 33 | Left eye outer corner | Sunglasses, face angle |
+| 6 | Nose bridge | Masquerade mask centering |
+| 10 | Forehead top center | Dog ears, Flame crown, Viking helmet |
+| 13 | Upper lip center | Mood meter, Freeze ray (mouth detection) |
+| 14 | Lower lip center | Mood meter, Freeze ray, Blush reactor |
+| 33 | Left eye outer corner | Sunglasses, face angle, Masquerade mask |
+| 61 | Left mouth corner | Blush reactor (smile width) |
+| 105 | Left eyebrow | Mood meter (raise height) |
 | 109 | Left forehead | Flame crown positioning |
 | 133 | Left eye inner corner | Eye width reference |
+| 152 | Chin center | Face height reference |
+| 226 | Left cheek | Blush reactor placement |
 | 234 | Left ear | Face width calculation |
-| 263 | Right eye outer corner | Sunglasses, face angle |
+| 263 | Right eye outer corner | Sunglasses, face angle, Masquerade mask |
+| 291 | Right mouth corner | Blush reactor (smile width) |
+| 334 | Right eyebrow | Mood meter (raise height) |
 | 338 | Right forehead | Flame crown positioning |
 | 362 | Right eye inner corner | Eye width reference |
+| 446 | Right cheek | Blush reactor placement |
 | 454 | Right ear | Face width calculation |
 
 ### Alpha Blending

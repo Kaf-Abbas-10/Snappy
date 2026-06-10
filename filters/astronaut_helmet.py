@@ -50,11 +50,13 @@ class AstronautHelmetFilter(BaseFilter):
         face_angle = get_face_angle(landmarks, frame_shape)
         
         # Calculate helmet position and size
-        helmet_center_x = (left_ear[0] + right_ear[0]) // 2
-        helmet_center_y = (forehead[1] + chin[1]) // 2
+        face_center_x = (left_ear[0] + right_ear[0]) // 2
+        face_center_y = (forehead[1] + chin[1]) // 2
+        helmet_center_x = face_center_x
+        helmet_center_y = face_center_y
         
-        # Scale helmet to fit head
-        helmet_width = int(face_width * 1.4)
+        # Scale helmet to fit head - make it much larger
+        helmet_width = int(face_width * 1.8)
         helmet_height = int(helmet_width * 1.1)  # Slightly taller for dome
         
         # Apply helmet with rotation

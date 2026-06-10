@@ -51,11 +51,13 @@ class VikingHelmetFilter(BaseFilter):
         face_angle = get_face_angle(landmarks, frame_shape)
         
         # Calculate helmet position and size
+        # Use face center rather than just forehead
+        face_center_y = (forehead[1] + chin[1]) // 2
         helmet_center_x = (left_ear[0] + right_ear[0]) // 2
-        helmet_center_y = int(forehead[1]) - int(face_width * 0.15)
+        helmet_center_y = face_center_y - int(face_width * 0.05)
         
-        # Scale helmet relative to face width
-        helmet_width = int(face_width * 1.35)
+        # Scale helmet relative to face width - make it larger
+        helmet_width = int(face_width * 1.6)
         helmet_height = int(helmet_width * 0.75)  # Helmet proportions
         
         # Apply helmet with rotation

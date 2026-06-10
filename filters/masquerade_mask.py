@@ -50,11 +50,14 @@ class MasqueradeMaskFilter(BaseFilter):
         face_angle = get_face_angle(landmarks, frame_shape)
         
         # Calculate mask position and size
+        # Center between eyes
         mask_center_x = (left_eye[0] + right_eye[0]) // 2
-        mask_center_y = (left_eye[1] + right_eye[1]) // 2
+        # Position on face center, not just eye level
+        face_center_y = (get_landmark_point(landmarks, 10, frame_shape)[1] + get_landmark_point(landmarks, 152, frame_shape)[1]) // 2
+        mask_center_y = face_center_y
         
-        # Scale mask relative to face width
-        mask_width = int(face_width * 1.2)
+        # Scale mask relative to face width - make it larger
+        mask_width = int(face_width * 1.35)
         mask_height = int(mask_width * 0.65)  # Mask proportions
         
         # Apply mask with rotation
