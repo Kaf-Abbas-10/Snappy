@@ -20,7 +20,7 @@ All filters:
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -58,7 +58,7 @@ python main.py
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 Snappy/
@@ -228,7 +228,7 @@ filters = {
 
 ---
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 | Issue | Solution |
 |---|---|
@@ -242,4 +242,12 @@ filters = {
 
 ## 📄 License
 
-This project is for educational and personal use. Have fun! 🎉
+Copyright (c) 2026 Kaf Abbas. All rights reserved.
+
+This project is proprietary software.
+
+No permission is granted to use, copy, modify, merge, publish, distribute, sublicense, or sell copies of this software, in whole or in part, without prior written permission from the copyright holder.
+
+Viewing the source code on GitHub does not grant any rights to use or redistribute the software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
